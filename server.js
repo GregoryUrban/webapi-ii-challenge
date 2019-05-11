@@ -7,7 +7,7 @@ const dbRouter = require('./data/db-router');
 const server = express();
 
 server.use(express.json()); 
-server.use('/api/db', dbRouter) // middleware
+server.use('/api/posts', dbRouter) // middleware
 // server.use('api.users', dbRouter) // examples
 // server.use('api.admins', dbRouter)
 

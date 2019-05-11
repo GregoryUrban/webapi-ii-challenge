@@ -40,15 +40,20 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  try {
-    const post = await Posts.insert(req.body);
-    res.status(201).json(post);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      error: 'There was an error while saving the post to the database',
-    });
-  }
+    if(req.body.title && req.body.contents){
+        try {
+            const post = await Posts.insert(req.body);
+            res.status(201).json(post);
+          } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Error while saving the post to the database.',
+            });
+          }
+    } else {
+        res.status(400).json({
+            errorMessage: "Please provide title and content for the post"
+        })
+    }
 });
 
 router.delete('/:id', async (req, res) => {
@@ -68,19 +73,42 @@ router.delete('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  try {
-    const post = await Posts.update(req.params.id, req.body);
-    if (post) {
-      res.status(200).json(post);
+
+    if(req.body.title && req.body.contents){
+        try {
+            const post = await Posts.update(req.params.id, req.body);
+            if (post) {
+              res.status(200).json(post);
+            } else {
+              res.status(404).json({ message: 'The post with the specified ID does not exist.' });
+            }
+          } catch (error) {
+            console.log(error);
+            res.status(500).json({
+              message: 'The post information could not be modified.',
+            });
+          }
     } else {
-      res.status(404).json({ message: 'The post with the specified ID does not exist.' });
+        res.status(400).json({
+            errorMessage: "Please provide title and content for the post"
+        })
     }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: 'The post information could not be modified.',
-    });
-  }
+
+
+
+//   try {
+//     const post = await Posts.update(req.params.id, req.body);
+//     if (post) {
+//       res.status(200).json(post);
+//     } else {
+//       res.status(404).json({ message: 'The post with the specified ID does not exist.' });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       message: 'The post information could not be modified.',
+//     });
+//   }
 });
 
 module.exports = router;

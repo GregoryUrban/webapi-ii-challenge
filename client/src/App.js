@@ -1,31 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import axios from 'axios';
 import './App.css';
-import server from '../../server.js'
 
 
-function App() {
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: [],
+    }
+}
+
+componentDidMount(){
+
+  console.log('CDM console log')
+  axios.get("http://localhost:5000/api/posts")
+       .then(res => this.setState({ posts: res.data }))
+       .catch(error => console.log(error))
+
+}
+
+render() {
   return (
     <div className="App">
-    <h4>
-      {server}
-    </h4>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {this.state.posts.map(post => 
+        <div>{post.id} {post.title} {post.contents}</div>
+      )}
     </div>
   );
 }
+
+}
+//   return (
+//     <div className="App">
+//     {this.state.posts.map(post => 
+//           <div>{post.id} <strong>{post.title}</strong> {post.contents}</div>
+//         )}
+//     </div>
+//   );
+// }
 
 export default App;

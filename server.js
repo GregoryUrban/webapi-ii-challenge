@@ -4,7 +4,7 @@ const express = require('express');
 
 const dbRouter = require('./data/db-router');
 
-const cors = require('cors')
+const cors = require('cors') // stretch
 
 const server = express();
 

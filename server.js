@@ -4,9 +4,12 @@ const express = require('express');
 
 const dbRouter = require('./data/db-router');
 
+const cors = require('cors')
+
 const server = express();
 
 server.use(express.json()); 
+server.use(cors()) // stretch
 server.use('/api/posts', dbRouter) // middleware
 // server.use('api.users', dbRouter) // examples
 // server.use('api.admins', dbRouter)

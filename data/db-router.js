@@ -6,6 +6,7 @@ const Posts = require('./db.js');
 const router = express.Router();
 
 router.use(express.json());
+// router.use(cors())
 
 //Endpoints
 // By time we get here  the url already has /api/db because its in server.use in server.js.
